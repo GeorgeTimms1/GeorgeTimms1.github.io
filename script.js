@@ -17,9 +17,9 @@ const projects = [
     ] },
 
   // 2025
-  { year: 2025, name: "Untitled ML Project", desc: "Machine-learning experiment — details soon.",     icon: "assets/github.svg",
+  { year: 2025, name: "Cooperative Multi-Agent RL", desc: "Unity drone-swarm sim comparing QMIX, MADDPG, and A* across packet-loss conditions.", icon: "assets/github.svg",
     links: [
-      { platform: "GitHub",      href: "#" }, // TODO
+      { platform: "GitHub",      href: "https://github.com/GeorgeTimms1/cooperative-multi-agent-rl" },
     ] },
 
   { year: 2025, name: "Pungo TD",     desc: "Tower defense — strategic waves of chaos.",             icon: "assets/pungo.jpg",
