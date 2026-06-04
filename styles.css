@@ -1,0 +1,152 @@
+:root {
+  --bg: #ffffff;
+  --fg: #0b0b0f;
+  --muted: #6b7280;
+  --soft: #f4f4f5;
+  --card: #ffffff;
+  --border: #e5e7eb;
+  --accent: #2563eb;
+  --radius: 14px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0a0a0d;
+    --fg: #f5f5f4;
+    --muted: #9ca3af;
+    --soft: #15151b;
+    --card: #111116;
+    --border: #25252c;
+    --accent: #8ab4ff;
+  }
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font: 16px/1.55 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: var(--fg);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+
+main {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 72px 28px 96px;
+}
+
+/* Header — minimal vertical stack */
+.intro { margin-bottom: 48px; }
+.avatar {
+  position: relative;
+  width: 56px; height: 56px;
+  border-radius: 14px;
+  background: var(--fg); color: var(--bg);
+  overflow: hidden;
+  margin-bottom: 18px;
+}
+.avatar-mono {
+  position: absolute; inset: 0;
+  display: grid; place-items: center;
+  font: 700 22px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+.avatar-img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+h1 { font-size: 24px; margin: 0; letter-spacing: -0.015em; font-weight: 600; }
+.tag { color: var(--muted); margin: 4px 0 16px; font-size: 14px; }
+.links { display: flex; gap: 18px; flex-wrap: wrap; }
+.links a {
+  color: var(--fg);
+  text-decoration: none;
+  font-size: 13px;
+  padding-bottom: 2px;
+  border-bottom: 1px solid var(--border);
+  transition: border-color 120ms ease, color 120ms ease;
+}
+.links a:hover { color: var(--accent); border-color: var(--accent); }
+
+/* Year sections */
+.year {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 24px;
+  padding: 28px 0;
+  border-top: 1px solid var(--border);
+}
+.year:first-of-type { border-top: none; padding-top: 8px; }
+.year-label {
+  font: 500 12px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+  padding-top: 14px;
+}
+.row {
+  list-style: none; padding: 0; margin: 0;
+  display: flex; flex-direction: column;
+}
+
+/* Project card */
+.proj {
+  display: grid;
+  grid-template-columns: 56px 1fr auto;
+  gap: 16px;
+  align-items: center;
+  padding: 12px 12px;
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--fg);
+  transition: background-color 120ms ease, transform 120ms ease;
+}
+.proj.clickable { cursor: pointer; }
+.proj:hover { background: var(--soft); }
+.proj-meta { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+
+.proj-icon {
+  width: 56px; height: 56px;
+  border-radius: 13px;
+  overflow: hidden;
+  background: var(--soft);
+  border: 1px solid var(--border);
+  flex: 0 0 auto;
+}
+.proj-icon img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.proj-body { min-width: 0; }
+.proj-name { font-size: 15px; font-weight: 600; letter-spacing: -0.005em; }
+.proj-desc { font-size: 13px; color: var(--muted); margin-top: 2px; }
+
+.platform {
+  display: inline-block;
+  font: 500 11px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: var(--muted);
+  text-decoration: none;
+  padding: 5px 9px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  letter-spacing: 0.02em;
+  transition: color 120ms ease, border-color 120ms ease, background-color 120ms ease;
+}
+.platform:hover { color: var(--fg); border-color: var(--fg); }
+.plat-ios:hover     { color: #fff; background: #0b0b0f; border-color: #0b0b0f; }
+.plat-android:hover { color: #fff; background: #3ddc84; border-color: #3ddc84; }
+.plat-steam:hover   { color: #fff; background: #1b2838; border-color: #1b2838; }
+.plat-web:hover     { color: #fff; background: #2563eb; border-color: #2563eb; }
+.plat-macos:hover   { color: #fff; background: #555; border-color: #555; }
+.plat-googleplay:hover { color: #fff; background: #01875f; border-color: #01875f; }
+.plat-github:hover  { color: #fff; background: #24292f; border-color: #24292f; }
+
+footer { margin-top: 64px; color: var(--muted); font-size: 13px; }
+footer a { color: inherit; text-decoration: none; border-bottom: 1px solid var(--border); }
+
+@media (max-width: 560px) {
+  main { padding: 48px 20px 64px; }
+  .year { grid-template-columns: 52px 1fr; gap: 16px; }
+  .proj { grid-template-columns: 48px 1fr; }
+  .proj-icon { width: 48px; height: 48px; border-radius: 11px; }
+  .proj-meta { grid-column: 1 / -1; justify-content: flex-start; margin-left: 64px; margin-top: -4px; }
+}

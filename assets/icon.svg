@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="George Timms">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0"   stop-color="#6d4cff"/>
+      <stop offset="0.55" stop-color="#2563eb"/>
+      <stop offset="1"   stop-color="#22d3ee"/>
+    </linearGradient>
+    <linearGradient id="shine" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="64" height="64" rx="14" ry="14" fill="url(#bg)"/>
+  <rect width="64" height="64" rx="14" ry="14" fill="url(#shine)"/>
+
+  <!-- Bold solid "G" — readable at 16px favicon size -->
+  <path fill="#ffffff" fill-rule="evenodd" d="
+    M32 12
+    a20 20 0 1 0 0 40
+    a20 20 0 0 0 20 -20
+    h-18
+    v8
+    h9
+    a11 11 0 1 1 -11 -14
+    a11 11 0 0 1 8 3
+    l6 -6
+    a20 20 0 0 0 -14 -7
+    z"/>
+</svg>
