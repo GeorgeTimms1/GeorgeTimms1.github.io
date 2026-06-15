@@ -10,6 +10,7 @@ const projects = [
     links: [{ platform: "iOS",   href: "https://apps.apple.com/us/app/showup-passive-habit-tracker/id6770475338" }] },
 
   { year: 2026, name: "Payroll",      desc: "Roguelike dice deckbuilder. Pay the loan shark.",       icon: "assets/payroll-dice.jpg",
+    featured: true,
     links: [
       { platform: "Steam",       href: "https://store.steampowered.com/app/4270940/Payroll/" },
       { platform: "iOS",         href: "https://apps.apple.com/us/app/payroll-dice/id6760189922" },
@@ -56,14 +57,84 @@ const projects = [
 ];
 
 const work = document.getElementById("work");
+
+// Build a single project card (<li> with the clickable row inside).
+function buildProjectCard(p) {
+  const platformList = (p.links || []).map(l => l.platform).join(", ");
+  const li = document.createElement("li");
+  const row = document.createElement("div");
+  row.className = "proj";
+  if (p.featured) row.classList.add("featured");
+  row.setAttribute("aria-label", `${p.name} — ${p.desc} (${platformList})`);
+
+  const ic = document.createElement("div"); ic.className = "proj-icon";
+  const img = document.createElement("img"); img.src = p.icon; img.alt = ""; img.loading = "lazy"; img.decoding = "async";
+  ic.append(img);
+
+  const body = document.createElement("div"); body.className = "proj-body";
+  const name = document.createElement("div"); name.className = "proj-name"; name.textContent = p.name;
+  const desc = document.createElement("div"); desc.className = "proj-desc"; desc.textContent = p.desc;
+  body.append(name, desc);
+
+  const meta = document.createElement("div"); meta.className = "proj-meta";
+  for (const l of (p.links || [])) {
+    const pill = document.createElement("a");
+    pill.className = `platform plat-${l.platform.toLowerCase().replace(/[^a-z0-9]+/g, "")}`;
+    pill.href = l.href; pill.target = "_blank"; pill.rel = "noopener";
+    pill.textContent = l.platform;
+    pill.setAttribute("aria-label", `${p.name} on ${l.platform}`);
+    meta.append(pill);
+  }
+
+  row.append(ic, body, meta);
+
+  // Clicking the row (outside a pill) opens the primary link.
+  const primary = p.links?.[0]?.href;
+  if (primary) {
+    row.classList.add("clickable");
+    row.tabIndex = 0;
+    row.addEventListener("click", e => {
+      if (e.target.closest("a")) return;
+      window.open(primary, "_blank", "noopener");
+    });
+    row.addEventListener("keydown", e => {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); window.open(primary, "_blank", "noopener"); }
+    });
+  }
+
+  li.append(row);
+  return li;
+}
+
+const frag = document.createDocumentFragment();
+
+// Featured section — pulled to the very top, above the year timeline.
+const featured = projects.filter(p => p.featured);
+if (featured.length) {
+  const sec = document.createElement("section");
+  sec.className = "year featured-section";
+
+  const label = document.createElement("div");
+  label.className = "year-label";
+  label.textContent = "Featured";
+
+  const list = document.createElement("ul");
+  list.className = "row";
+  for (const p of featured) list.append(buildProjectCard(p));
+
+  sec.append(label, list);
+  frag.append(sec);
+}
+
+// Year timeline — everything not featured, grouped by year (newest first).
 const byYear = new Map();
 for (const p of projects) {
+  if (p.featured) continue;
   if (!byYear.has(p.year)) byYear.set(p.year, []);
   byYear.get(p.year).push(p);
 }
 const years = [...byYear.keys()].sort((a, b) => b - a);
 
-const frag = document.createDocumentFragment();
 for (const y of years) {
   const sec = document.createElement("section");
   sec.className = "year";
@@ -74,52 +145,7 @@ for (const y of years) {
 
   const list = document.createElement("ul");
   list.className = "row";
-
-  for (const p of byYear.get(y)) {
-    const platformList = (p.links || []).map(l => l.platform).join(", ");
-    const li = document.createElement("li");
-    const row = document.createElement("div");
-    row.className = "proj";
-    row.setAttribute("aria-label", `${p.name} — ${p.desc} (${platformList})`);
-
-    const ic = document.createElement("div"); ic.className = "proj-icon";
-    const img = document.createElement("img"); img.src = p.icon; img.alt = ""; img.loading = "lazy"; img.decoding = "async";
-    ic.append(img);
-
-    const body = document.createElement("div"); body.className = "proj-body";
-    const name = document.createElement("div"); name.className = "proj-name"; name.textContent = p.name;
-    const desc = document.createElement("div"); desc.className = "proj-desc"; desc.textContent = p.desc;
-    body.append(name, desc);
-
-    const meta = document.createElement("div"); meta.className = "proj-meta";
-    for (const l of (p.links || [])) {
-      const pill = document.createElement("a");
-      pill.className = `platform plat-${l.platform.toLowerCase().replace(/[^a-z0-9]+/g, "")}`;
-      pill.href = l.href; pill.target = "_blank"; pill.rel = "noopener";
-      pill.textContent = l.platform;
-      pill.setAttribute("aria-label", `${p.name} on ${l.platform}`);
-      meta.append(pill);
-    }
-
-    row.append(ic, body, meta);
-
-    // Clicking the row (outside a pill) opens the primary link.
-    const primary = p.links?.[0]?.href;
-    if (primary) {
-      row.classList.add("clickable");
-      row.tabIndex = 0;
-      row.addEventListener("click", e => {
-        if (e.target.closest("a")) return;
-        window.open(primary, "_blank", "noopener");
-      });
-      row.addEventListener("keydown", e => {
-        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); window.open(primary, "_blank", "noopener"); }
-      });
-    }
-
-    li.append(row);
-    list.append(li);
-  }
+  for (const p of byYear.get(y)) list.append(buildProjectCard(p));
 
   sec.append(label, list);
   frag.append(sec);
