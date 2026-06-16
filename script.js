@@ -14,7 +14,7 @@ const projects = [
     links: [
       { platform: "Steam",       href: "https://store.steampowered.com/app/4270940/Payroll/" },
       { platform: "iOS",         href: "https://apps.apple.com/us/app/payroll-dice/id6760189922" },
-      { platform: "Google Play", href: "#" }, // TODO: add real Play Store URL
+      { platform: "Google Play", href: "https://play.google.com/store/apps/details?id=com.Thyme.Payroll&hl=en_GB" },
     ] },
 
   // 2025
@@ -116,7 +116,7 @@ if (featured.length) {
 
   const label = document.createElement("div");
   label.className = "year-label";
-  label.textContent = "Featured";
+  label.textContent = "Flagship";
 
   const list = document.createElement("ul");
   list.className = "row";
