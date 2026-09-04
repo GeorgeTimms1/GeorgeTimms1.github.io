@@ -2,7 +2,17 @@
 // Platforms are free-form strings — add "iOS", "Android", "Steam", "Web", "macOS", etc.
 // The first link in the array is the primary one used when the whole card is clicked.
 const projects = [
+  // 2027
+  { year: 2027, name: "I Buried Steve", desc: "Chaotic beach party game for up to 8. Build the obstacle course, then race your friends through it.", icon: "assets/i-buried-steve.jpg",
+    featured: true,
+    links: [
+      { platform: "Steam",       href: "https://store.steampowered.com/app/5031430/I_Buried_Steve/" },
+    ] },
+
   // 2026
+  { year: 2026, name: "Vantage",      desc: "Net worth dashboard — cash, investments and property, kept private.", icon: "assets/vantage.jpg",
+    links: [{ platform: "iOS",   href: "https://apps.apple.com/us/app/vantage-portfolio-dashboard/id6801780511" }] },
+
   { year: 2026, name: "Graze",        desc: "Digital detox — gentle nudges to put your phone down.", icon: "assets/graze.jpg",
     links: [{ platform: "iOS",   href: "https://apps.apple.com/us/app/graze-digital-detox/id6768238322" }] },
 
