@@ -4,13 +4,14 @@
 const projects = [
   // 2027
   { year: 2027, name: "I Buried Steve", desc: "Chaotic beach party game for up to 8. Build the obstacle course, then race your friends through it.", icon: "assets/i-buried-steve.jpg",
-    featured: true,
+    group: "In dev", status: "Coming soon",
     links: [
       { platform: "Steam",       href: "https://store.steampowered.com/app/5031430/I_Buried_Steve/" },
     ] },
 
   // 2026
   { year: 2026, name: "Vantage",      desc: "Net worth dashboard — cash, investments and property, kept private.", icon: "assets/vantage.jpg",
+    group: "In dev",
     links: [{ platform: "iOS",   href: "https://apps.apple.com/us/app/vantage-portfolio-dashboard/id6801780511" }] },
 
   { year: 2026, name: "Graze",        desc: "Digital detox — gentle nudges to put your phone down.", icon: "assets/graze.jpg",
@@ -75,7 +76,7 @@ function buildProjectCard(p) {
   const row = document.createElement("div");
   row.className = "proj";
   if (p.featured) row.classList.add("featured");
-  row.setAttribute("aria-label", `${p.name} — ${p.desc} (${platformList})`);
+  row.setAttribute("aria-label", `${p.name}${p.status ? ", " + p.status : ""} — ${p.desc} (${platformList})`);
 
   const ic = document.createElement("div"); ic.className = "proj-icon";
   const img = document.createElement("img"); img.src = p.icon; img.alt = ""; img.loading = "lazy"; img.decoding = "async";
@@ -83,6 +84,11 @@ function buildProjectCard(p) {
 
   const body = document.createElement("div"); body.className = "proj-body";
   const name = document.createElement("div"); name.className = "proj-name"; name.textContent = p.name;
+  if (p.status) {
+    const badge = document.createElement("span");
+    badge.className = "status"; badge.textContent = p.status;
+    name.append(badge);
+  }
   const desc = document.createElement("div"); desc.className = "proj-desc"; desc.textContent = p.desc;
   body.append(name, desc);
 
@@ -116,50 +122,46 @@ function buildProjectCard(p) {
   return li;
 }
 
+// One labelled section — gutter label on the left, a stack of cards on the right.
+function buildSection(label, items, extraClass) {
+  const sec = document.createElement("section");
+  sec.className = extraClass ? `year ${extraClass}` : "year";
+
+  const tag = document.createElement("div");
+  tag.className = "year-label";
+  tag.textContent = label;
+
+  const list = document.createElement("ul");
+  list.className = "row";
+  for (const p of items) list.append(buildProjectCard(p));
+
+  sec.append(tag, list);
+  return sec;
+}
+
+// Group projects by a key, preserving the order they appear in `projects`.
+function groupBy(items, key) {
+  const map = new Map();
+  for (const p of items) {
+    const k = key(p);
+    if (!map.has(k)) map.set(k, []);
+    map.get(k).push(p);
+  }
+  return map;
+}
+
 const frag = document.createDocumentFragment();
 
-// Featured section — pulled to the very top, above the year timeline.
+// Flagship first, then any named `group`, then the year timeline.
 const featured = projects.filter(p => p.featured);
-if (featured.length) {
-  const sec = document.createElement("section");
-  sec.className = "year featured-section";
+if (featured.length) frag.append(buildSection("Flagship", featured, "featured-section"));
 
-  const label = document.createElement("div");
-  label.className = "year-label";
-  label.textContent = "Flagship";
+const grouped = groupBy(projects.filter(p => !p.featured && p.group), p => p.group);
+for (const [label, items] of grouped) frag.append(buildSection(label, items, "group-section"));
 
-  const list = document.createElement("ul");
-  list.className = "row";
-  for (const p of featured) list.append(buildProjectCard(p));
+const byYear = groupBy(projects.filter(p => !p.featured && !p.group), p => p.year);
+for (const y of [...byYear.keys()].sort((a, b) => b - a)) frag.append(buildSection(y, byYear.get(y)));
 
-  sec.append(label, list);
-  frag.append(sec);
-}
-
-// Year timeline — everything not featured, grouped by year (newest first).
-const byYear = new Map();
-for (const p of projects) {
-  if (p.featured) continue;
-  if (!byYear.has(p.year)) byYear.set(p.year, []);
-  byYear.get(p.year).push(p);
-}
-const years = [...byYear.keys()].sort((a, b) => b - a);
-
-for (const y of years) {
-  const sec = document.createElement("section");
-  sec.className = "year";
-
-  const label = document.createElement("div");
-  label.className = "year-label";
-  label.textContent = y;
-
-  const list = document.createElement("ul");
-  list.className = "row";
-  for (const p of byYear.get(y)) list.append(buildProjectCard(p));
-
-  sec.append(label, list);
-  frag.append(sec);
-}
 work.append(frag);
 
 document.getElementById("year").textContent = new Date().getFullYear();

@@ -139,6 +139,22 @@ h1 { font-size: 24px; margin: 0; letter-spacing: -0.015em; font-weight: 600; }
 .proj-name { font-size: 15px; font-weight: 600; letter-spacing: -0.005em; }
 .proj-desc { font-size: 13px; color: var(--muted); margin-top: 2px; }
 
+/* Status badge beside a project name — "Coming soon" and friends. */
+.status {
+  display: inline-block;
+  margin-left: 8px;
+  vertical-align: 1px;
+  font: 500 10px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  padding: 3px 7px;
+  border-radius: 999px;
+}
+
 .platform {
   display: inline-block;
   font: 500 11px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
