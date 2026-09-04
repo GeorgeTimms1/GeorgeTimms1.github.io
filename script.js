@@ -4,14 +4,14 @@
 const projects = [
   // 2027
   { year: 2027, name: "I Buried Steve", desc: "Chaotic beach party game for up to 8. Build the obstacle course, then race your friends through it.", icon: "assets/i-buried-steve.jpg",
-    group: "In dev", status: "Coming soon",
+    group: "In development", status: "Coming soon",
     links: [
       { platform: "Steam",       href: "https://store.steampowered.com/app/5031430/I_Buried_Steve/" },
     ] },
 
   // 2026
   { year: 2026, name: "Vantage",      desc: "Net worth dashboard — cash, investments and property, kept private.", icon: "assets/vantage.jpg",
-    group: "In dev",
+    group: "In development", status: "Coming soon",
     links: [{ platform: "iOS",   href: "https://apps.apple.com/us/app/vantage-portfolio-dashboard/id6801780511" }] },
 
   { year: 2026, name: "Graze",        desc: "Digital detox — gentle nudges to put your phone down.", icon: "assets/graze.jpg",

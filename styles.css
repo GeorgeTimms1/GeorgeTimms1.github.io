@@ -7,6 +7,9 @@
   --border: #e5e7eb;
   --accent: #2563eb;
   --radius: 14px;
+  /* Sized to the longest section label ("In development") so every
+     section aligns — each .year is its own grid, so `auto` would not. */
+  --gutter: 106px;
 }
 @media (prefers-color-scheme: dark) {
   :root {
@@ -73,7 +76,7 @@ h1 { font-size: 24px; margin: 0; letter-spacing: -0.015em; font-weight: 600; }
 /* Year sections */
 .year {
   display: grid;
-  grid-template-columns: 64px 1fr;
+  grid-template-columns: var(--gutter) 1fr;
   gap: 24px;
   padding: 28px 0;
   border-top: 1px solid var(--border);
